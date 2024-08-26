@@ -1,5 +1,6 @@
 <script setup>
 import {ref} from 'vue'
+import axios from 'axios'
 
 const getImageUrl = (user) => new URL(`../assets/images/${user}.png`, import.meta.url).href
 const tableData = ref([
@@ -23,6 +24,15 @@ const tableLabel = ref({
   totalBuy: '总购买'
 })
 
+axios({
+  url: '/api/home/getTableData',
+  method: 'get'
+}).then(res => {
+  console.log(res)
+  if (res.code === 200) {
+    tableData.value = res.data.data.tableData
+  }
+})
 </script>
 
 <template>
@@ -94,7 +104,7 @@ const tableLabel = ref({
     }
   }
 
-  .user-table{
+  .user-table {
     margin-top: 20px;
   }
 }
