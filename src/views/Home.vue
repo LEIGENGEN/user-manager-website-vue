@@ -1,6 +1,5 @@
 <script setup>
 import {ref, getCurrentInstance, onMounted} from 'vue'
-import axios from 'axios'
 
 const {proxy} = getCurrentInstance()
 const getImageUrl = (user) => new URL(`../assets/images/${user}.png`, import.meta.url).href
@@ -19,15 +18,6 @@ const getTableData = async () => {
 onMounted(() => {
   getTableData()
 })
-// axios({
-//   url: '/api/home/getTableData',
-//   method: 'get'
-// }).then(res => {
-//   console.log(res)
-//   if (res.code === 200) {
-//     tableData.value = res.data.data.tableData
-//   }
-// })
 </script>
 
 <template>
