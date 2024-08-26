@@ -5,9 +5,15 @@ import request from './request.js'
 export default {
   getTableData() {
     return request({
-      url: '/api/home/getTableData',
+      url: '/home/getTableData',
       method: 'get',
       mock: false
+    })
+  },
+  getCountData() {
+    return request({
+      url: '/home/getCountData',
+      method: 'get'
     })
   }
 }

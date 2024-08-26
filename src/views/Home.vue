@@ -4,19 +4,26 @@ import {ref, getCurrentInstance, onMounted} from 'vue'
 const {proxy} = getCurrentInstance()
 const getImageUrl = (user) => new URL(`../assets/images/${user}.png`, import.meta.url).href
 const tableData = ref([])
+const countData = ref([])
 const tableLabel = ref({
   name: '课程',
   todayBuy: '今日购买',
   monthBuy: '本月购买',
   totalBuy: '总购买'
 })
+
 const getTableData = async () => {
   let data = await proxy.$api.getTableData()
   tableData.value = data.tableData
 }
+const getCountData = async () => {
+  let data = await proxy.$api.getCountData()
+  countData.value = data
+}
 
 onMounted(() => {
   getTableData()
+  getCountData()
 })
 </script>
 
