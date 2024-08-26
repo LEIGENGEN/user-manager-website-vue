@@ -1,13 +1,18 @@
 <script setup>
 import {ref, computed} from 'vue'
+import {useAllDataStore} from '../stores/index.js'
 // 当前绝对的路径asset找到这个资源 new URL (url,base)
 const getImageUrl = (user) => new URL(`../assets/images/${user}.png`, import.meta.url)
+const store = useAllDataStore()
+const handleCollapse = () => {
+  store.state.isCollapsed = !store.state.isCollapsed
+}
 </script>
 
 <template>
   <div class="header">
     <div class="l-content">
-      <el-button size="small">
+      <el-button size="small" @click="handleCollapse">
         <component class="icons" is="menu"></component>
       </el-button>
       <el-breadcrumb separator="/" class="bread">

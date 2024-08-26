@@ -2,7 +2,9 @@ import {defineStore} from 'pinia'
 import {ref} from 'vue'
 
 function initState() {
-
+  return {
+    isCollapsed: true
+  }
 }
 
 export const useAllDataStore = defineStore('allData', () => {
