@@ -44,7 +44,7 @@ export default {
       }
     }
   },
-//也是在之前的 export default中添加
+  //也是在之前的 export default中添加
   getCountData: () => {
     return {
       code: 200,
@@ -94,13 +94,13 @@ export default {
       data: {
         orderData: {
           date: [
-            "2019-10-01",
-            "2019-10-02",
-            "2019-10-03",
-            "2019-10-04",
-            "2019-10-05",
-            "2019-10-06",
-            "2019-10-07",
+            '2019-10-01',
+            '2019-10-02',
+            '2019-10-03',
+            '2019-10-04',
+            '2019-10-05',
+            '2019-10-06',
+            '2019-10-07'
           ],
           data: [
             {
@@ -109,7 +109,7 @@ export default {
               华为: 4965,
               oppo: 3334,
               vivo: 2820,
-              一加: 4751,
+              一加: 4751
             },
             {
               苹果: 3560,
@@ -117,7 +117,7 @@ export default {
               华为: 3192,
               oppo: 4210,
               vivo: 1283,
-              一加: 1613,
+              一加: 1613
             },
             {
               苹果: 1864,
@@ -125,7 +125,7 @@ export default {
               华为: 4202,
               oppo: 4377,
               vivo: 4123,
-              一加: 4750,
+              一加: 4750
             },
             {
               苹果: 2634,
@@ -133,7 +133,7 @@ export default {
               华为: 4155,
               oppo: 2847,
               vivo: 2551,
-              一加: 1733,
+              一加: 1733
             },
             {
               苹果: 3622,
@@ -141,7 +141,7 @@ export default {
               华为: 2860,
               oppo: 3870,
               vivo: 1852,
-              一加: 1712,
+              一加: 1712
             },
             {
               苹果: 2004,
@@ -149,7 +149,7 @@ export default {
               华为: 1395,
               oppo: 1315,
               vivo: 4051,
-              一加: 2293,
+              一加: 2293
             },
             {
               苹果: 3797,
@@ -157,28 +157,28 @@ export default {
               华为: 3642,
               oppo: 4408,
               vivo: 3374,
-              一加: 3874,
-            },
-          ],
+              一加: 3874
+            }
+          ]
         },
         videoData: [
-          { name: "小米", value: 2999 },
-          { name: "苹果", value: 5999 },
-          { name: "vivo", value: 1500 },
-          { name: "oppo", value: 1999 },
-          { name: "魅族", value: 2200 },
-          { name: "三星", value: 4500 },
+          {name: '小米', value: 2999},
+          {name: '苹果', value: 5999},
+          {name: 'vivo', value: 1500},
+          {name: 'oppo', value: 1999},
+          {name: '魅族', value: 2200},
+          {name: '三星', value: 4500}
         ],
         userData: [
-          { date: "周一", new: 5, active: 200 },
-          { date: "周二", new: 10, active: 500 },
-          { date: "周三", new: 12, active: 550 },
-          { date: "周四", new: 60, active: 800 },
-          { date: "周五", new: 65, active: 550 },
-          { date: "周六", new: 53, active: 770 },
-          { date: "周日", new: 33, active: 170 },
-        ],
-      },
-    };
+          {date: '周一', new: 5, active: 200},
+          {date: '周二', new: 10, active: 500},
+          {date: '周三', new: 12, active: 550},
+          {date: '周四', new: 60, active: 800},
+          {date: '周五', new: 65, active: 550},
+          {date: '周六', new: 53, active: 770},
+          {date: '周日', new: 33, active: 170}
+        ]
+      }
+    }
   }
 }

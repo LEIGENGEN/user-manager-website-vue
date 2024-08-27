@@ -1,5 +1,6 @@
 <script setup>
 import {reactive, ref, getCurrentInstance, onMounted} from 'vue'
+import * as echarts from 'echarts'
 
 const {proxy} = getCurrentInstance()
 const getImageUrl = (user) => new URL(`../assets/images/${user}.png`, import.meta.url).href
@@ -77,8 +78,18 @@ const getCountData = async () => {
   countData.value = await proxy.$api.getCountData()
 }
 const getChartData = async () => {
-  const data = await proxy.$api.getChartData()
-  console.log(data)
+  const {orderData, userData, videoData} = await proxy.$api.getChartData()
+  // 对第一个图标进行x周 和series
+  xOptions.xAxis.data = orderData.date
+  xOptions.series = Object.keys(orderData.data[0]).map(val => {
+    return {
+      name: val,
+      data: orderData.data.map(item => item[val]),
+      type: 'line'
+    }
+  })
+  const oneEcharts = echarts.init(proxy.$refs['echart'])
+  oneEcharts.setOption(xOptions)
 }
 onMounted(() => {
   getTableData()
@@ -121,6 +132,9 @@ onMounted(() => {
           </div>
         </el-card>
       </div>
+      <el-card class="top-echarts">
+        <div ref="echart" style="height: 280px"></div>
+      </el-card>
     </el-col>
   </el-row>
 </template>
