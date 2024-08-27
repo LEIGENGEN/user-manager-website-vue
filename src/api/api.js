@@ -16,9 +16,15 @@ export default {
       method: 'get'
     })
   },
-  getChartData(){
+  getChartData() {
     return request({
       url: '/home/getChartData',
+      method: 'get'
+    })
+  },
+  getUserData() {
+    return request({
+      url: '/home/getUserData',
       method: 'get'
     })
   }
