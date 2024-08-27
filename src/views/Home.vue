@@ -7,6 +7,7 @@ const getImageUrl = (user) => new URL(`../assets/images/${user}.png`, import.met
 const tableData = ref([])
 const countData = ref([])
 const chartData = ref([])
+const observer = ref(null)
 // echarts 折线图和柱状图
 const xOptions = reactive({
   // 图例文字颜色
@@ -90,6 +91,36 @@ const getChartData = async () => {
   })
   const oneEcharts = echarts.init(proxy.$refs['echart'])
   oneEcharts.setOption(xOptions)
+//  第二个表格渲染
+  xOptions.xAxis.data = userData.map(item => item.date)
+  xOptions.series = [{
+    name: '新增用户',
+    data: userData.map(item => item.new),
+    type: 'bar'
+  }, {
+    name: '活跃用户',
+    data: userData.map(item => item.active),
+    type: 'bar'
+  }]
+  const twoEchart = echarts.init(proxy.$refs['userEchart'])
+  twoEchart.setOption(xOptions)
+//   饼状图渲染
+  pieOptions.series = [{
+    data: videoData,
+    type: 'pie'
+  }]
+  const threeEchart = echarts.init(proxy.$refs['videoEchart'])
+  threeEchart.setOption(pieOptions)
+//   监听页面变化,改变容器变化
+  observer.value = new ResizeObserver((en) => {
+    oneEcharts.resize()
+    twoEchart.resize()
+    threeEchart.resize()
+  })
+//   容器存在
+  if (proxy.$refs['echart']) {
+    observer.value.observe(proxy.$refs['echart'])
+  }
 }
 onMounted(() => {
   getTableData()
@@ -135,6 +166,14 @@ onMounted(() => {
       <el-card class="top-echarts">
         <div ref="echart" style="height: 280px"></div>
       </el-card>
+      <div class="graph">
+        <el-card>
+          <div ref="userEchart" style="height: 240px"></div>
+        </el-card>
+        <el-card>
+          <div ref="videoEchart" style="height: 240px"></div>
+        </el-card>
+      </div>
     </el-col>
   </el-row>
 </template>
@@ -221,6 +260,17 @@ onMounted(() => {
         --color: #999;
       }
     }
+  }
+}
+
+.graph {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+
+  .el-card {
+    width: 48%;
+    height: 260px;
   }
 }
 </style>
