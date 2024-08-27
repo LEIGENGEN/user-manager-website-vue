@@ -1,22 +1,22 @@
 <script setup>
 import {ref, getCurrentInstance, onMounted, reactive} from 'vue'
 
-const handleClick = () => {
-  console.log('click')
-}
-
 const tableData = ref([])
 const {proxy} = getCurrentInstance()
 const getUserData = async () => {
-  let data = await proxy.$api.getUserData()
+  let data = await proxy.$api.getUserData(config)
   tableData.value = data.list.map(item => {
     return {
       ...item,
       sexLabel: item.label === 1 ? '男' : '女'
     }
   })
+  config.total = data.count
 }
-
+const handleChange = (page) => {
+  config.page = page
+  getUserData()
+}
 const tableLabel = reactive([
   {
     prop: 'name',
@@ -41,7 +41,16 @@ const tableLabel = reactive([
     width: 400
   }
 ])
-
+const formInline = reactive({
+  keyWord: ''
+})
+const config = reactive({
+  name: ''
+})
+const handleClick = () => {
+  config.name = formInline.keyWord
+  getUserData()
+}
 onMounted(() => {
   getUserData()
 })
@@ -50,12 +59,12 @@ onMounted(() => {
 <template>
   <div class="user-header">
     <el-button type="primary">新增</el-button>
-    <el-form :inline="true">
+    <el-form :inline="true" :model="formInline">
       <el-form-item label="请输入">
-        <el-input placeholder="请输入用户名"></el-input>
+        <el-input placeholder="请输入用户名" v-model="formInline.keyWord"></el-input>
       </el-form-item>
       <el-form-item label="请输入">
-        <el-button type="primary">搜索</el-button>
+        <el-button type="primary" @click="handleClick">搜索</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -71,6 +80,7 @@ onMounted(() => {
         </template>
       </el-table-column>
     </el-table>
+    <el-pagination class="pager" background layout="prev, pager, next" size="small" :total="config.total" @current-change="handleChange"/>
   </div>
 </template>
 
@@ -78,5 +88,21 @@ onMounted(() => {
 .user-header {
   display: flex;
   justify-content: space-between;
+}
+
+.table {
+  position: relative;
+  height: 520px;
+
+  .pager {
+    position: absolute;
+    right: 10px;
+    bottom: 30px;
+  }
+
+  .el-table {
+    width: 100%;
+    height: 500px;
+  }
 }
 </style>

@@ -22,10 +22,11 @@ export default {
       method: 'get'
     })
   },
-  getUserData() {
+  getUserData(data) {
     return request({
       url: '/home/getUserData',
-      method: 'get'
+      method: 'get',
+      data
     })
   }
 }
