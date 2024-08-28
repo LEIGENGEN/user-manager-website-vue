@@ -4,8 +4,8 @@ import {useAllDataStore} from '../stores/index.js'
 import {useRouter} from 'vue-router'
 
 const loginForm = reactive({
-  username: '',
-  password: ''
+  username: 'admin',
+  password: 'admin'
 })
 const {proxy} = getCurrentInstance()
 const store = useAllDataStore()

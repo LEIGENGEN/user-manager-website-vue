@@ -74,7 +74,8 @@ export const useAllDataStore = defineStore('allData', () => {
 
     let routers = router.getRoutes()
     routers.forEach(item => {
-      if (item.name === 'main' || item.name === 'login') return
+      // 这里的判断404要加上
+      if (item.name === 'main' || item.name === 'login' || item.name === '404') return
       else router.removeRoute(item.name)
     })
 
