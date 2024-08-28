@@ -15,8 +15,10 @@ const handleLogin = async () => {
 //   拿到菜单之后 显示
   store.updateMenuList(res.menuList)
   store.state.token = res.token
-  router.push('/home')
+  // addmenu一定要写在上面
   store.addMenu(router)
+  router.push('/home')
+
 }
 </script>
 

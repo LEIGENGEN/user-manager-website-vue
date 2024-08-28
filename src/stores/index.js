@@ -59,6 +59,12 @@ export const useAllDataStore = defineStore('allData', () => {
       }
     })
 
+    let routers = router.getRoutes()
+    routers.forEach(item => {
+      if (item.name === 'main' || item.name === 'login') return
+      else router.removeRoute(item.name)
+    })
+
     routeArr.forEach(item => {
       state.value.routerList.push(router.addRoute('main', item))
     })
