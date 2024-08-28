@@ -180,8 +180,8 @@ onMounted(() => {
 
 <style scoped lang="less">
 .home {
-  height: 100%;
-  overflow: hidden;
+  //height: 100%;
+  //overflow: hidden;
 
   .user {
     display: flex;

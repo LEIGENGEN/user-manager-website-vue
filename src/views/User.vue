@@ -89,6 +89,47 @@ const handleClose = () => {
 const handleCancel = () => {
   dialogVisible.value = false
 }
+const handleAdd = () => {
+  dialogVisible.value = true
+  action.value = 'add'
+}
+const TimeFormat = (time) => {
+  let newTime = new Date(time)
+  let year = newTime.getFullYear()
+  let month = newTime.getMonth() + 1
+  let day = newTime.getDate()
+
+  function add(m) {
+    if (m < 10) m = '0' + m
+    return m
+  }
+
+  return `${year}-${add(month)}-${add(day)}`
+}
+
+const onSubmit = () => {
+//   首先校验
+  proxy.$refs['userForm'].validate(async (valid) => {
+    if (valid) {
+      let res = null
+      formUser.birth = /^\d{4}-\d{2}-\d{2}$/.test(formUser.birth) ? formUser.birth : TimeFormat(formUser.birth)
+      if (action.value === 'add') {
+        res = await proxy.$api.addUser(formUser)
+      }
+      if (res) {
+        dialogVisible.value = false
+        proxy.$refs['userForm'].resetFields()
+        getUserData()
+      }
+    } else {
+      ElMessage({
+        showClose: true,
+        message: '请输入正确的内容',
+        type: 'error'
+      })
+    }
+  })
+}
 onMounted(() => {
   getUserData()
 })
@@ -96,7 +137,7 @@ onMounted(() => {
 
 <template>
   <div class="user-header">
-    <el-button type="primary">新增</el-button>
+    <el-button type="primary" @click="handleAdd">新增</el-button>
     <el-form :inline="true" :model="formInline">
       <el-form-item label="请输入">
         <el-input placeholder="请输入用户名" v-model="formInline.keyWord"></el-input>
@@ -109,7 +150,7 @@ onMounted(() => {
   <div class="table">
     <el-table :data="tableData" style="width: 100%">
       <el-table-column v-for="(item,index) in tableLabel" :key="index" :width="item.width?item.width:125" :prop="item.prop" :label="item.label"/>
-      <el-table-column fixed="right" label="Operations" min-width="120">
+      <el-table-column fixed="right" label="Operations" min-width="150">
         <template #default="scope">
           <el-button type="primary" size="small" @click="handleClick">
             编辑
