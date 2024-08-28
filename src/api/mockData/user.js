@@ -42,7 +42,7 @@ export default {
    */
   getUserList: config => {
     //limit默认是10，因为分页器默认也是一页10个
-    const { name, page = 1, limit = 10 } = param2Obj(config.url)
+    const {name, page = 1, limit = 10} = param2Obj(config.url)
 
     const mockList = List.filter(user => {
       //如果name存在会，根据name筛选数据
@@ -55,9 +55,32 @@ export default {
       code: 200,
       data: {
         list: pageList,
-        count: mockList.length, //数据总条数需要返回
+        count: mockList.length //数据总条数需要返回
       }
     }
   },
+  //在原来的export default 中添加
+
+  /**
+   * 删除用户
+   * @param id
+   * @return {*}
+   */
+  deleteUser: config => {
+    const {id} = param2Obj(config.url)
+
+    if (!id) {
+      return {
+        code: -999,
+        message: '参数不正确'
+      }
+    } else {
+      List = List.filter(u => u.id !== id)
+      return {
+        code: 200,
+        message: '删除成功'
+      }
+    }
+  }
 
 }
