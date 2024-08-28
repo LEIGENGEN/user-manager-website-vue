@@ -1,16 +1,11 @@
 <script setup>
-import {ref} from 'vue'
+import {computed, ref} from 'vue'
 import {useRoute} from 'vue-router'
+import {useAllDataStore} from '../stores/index.js'
 
+const store = useAllDataStore()
 const route = useRoute()
-const tags = ref([
-  {
-    path: '/home',
-    name: 'home',
-    label: '首页',
-    icon: 'home'
-  }
-])
+const tags = computed(() => store.state.tags)
 </script>
 
 <template>
@@ -23,7 +18,8 @@ const tags = ref([
 .tabs {
   margin: 20px 0 0 20px;
 }
-.el-tag{
+
+.el-tag {
   margin-right: 10px;
 }
 </style>
