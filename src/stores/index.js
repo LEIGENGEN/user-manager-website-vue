@@ -10,7 +10,9 @@ function initState() {
       label: '首页',
       icon: 'home'
     }],
-    currentMenu: null
+    currentMenu: null,
+    menuList: [],
+    token: ''
   }
 }
 
@@ -34,5 +36,9 @@ export const useAllDataStore = defineStore('allData', () => {
     state.value.tags.splice(index, 1)
   }
 
-  return {state, selectMenu, updateTags}
+  function updateMenuList(val) {
+    state.value.menuList = val
+  }
+
+  return {state, selectMenu, updateTags, updateMenuList}
 })
