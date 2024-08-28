@@ -27,8 +27,12 @@ export const useAllDataStore = defineStore('allData', () => {
       let index = state.value.tags.findIndex(item => item.name === val.name)
       index === -1 ? state.value.tags.push(val) : ''
     }
-
   }
 
-  return {state, selectMenu}
+  function updateTags(tag) {
+    let index = state.value.tags.findIndex(item => item.name === tag.name)
+    state.value.tags.splice(index, 1)
+  }
+
+  return {state, selectMenu, updateTags}
 })
