@@ -1,11 +1,16 @@
 <script setup>
-import {ref, computed} from 'vue'
 import {useAllDataStore} from '../stores/index.js'
+import {useRouter} from 'vue-router'
+import router from '../router/index.js'
 // 当前绝对的路径asset找到这个资源 new URL (url,base)
 const getImageUrl = (user) => new URL(`../assets/images/${user}.png`, import.meta.url)
 const store = useAllDataStore()
 const handleCollapse = () => {
   store.state.isCollapsed = !store.state.isCollapsed
+}
+const handleLoginOut = () => {
+  store.clean()
+  // router.push('/login')
 }
 </script>
 
@@ -27,7 +32,7 @@ const handleCollapse = () => {
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item>个人中心</el-dropdown-item>
-            <el-dropdown-item>退出</el-dropdown-item>
+            <el-dropdown-item @click="handleLoginOut">退出</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>

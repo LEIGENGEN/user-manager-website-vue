@@ -83,5 +83,16 @@ export const useAllDataStore = defineStore('allData', () => {
     })
   }
 
-  return {state, selectMenu, updateTags, updateMenuList, addMenu}
+  // 退出登陆
+  function clean() {
+    state.value.routerList.forEach(item => {
+      // console.log(item)
+      if (item) item()
+    })
+    state.value = initState()
+    //   删除缓存
+    localStorage.removeItem('store')
+  }
+
+  return {state, selectMenu, updateTags, updateMenuList, addMenu, clean}
 })
