@@ -12,11 +12,11 @@ const store = useAllDataStore()
 const router = useRouter()
 const handleLogin = async () => {
   const res = await proxy.$api.getMenu(loginForm)
-  console.log(res)
 //   拿到菜单之后 显示
   store.updateMenuList(res.menuList)
   store.state.token = res.token
   router.push('/home')
+  store.addMenu(router)
 }
 </script>
 
