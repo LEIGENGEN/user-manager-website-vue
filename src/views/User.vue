@@ -1,17 +1,15 @@
 <script setup>
-import {ref, getCurrentInstance, onMounted, reactive} from 'vue'
+import {ref, getCurrentInstance, onMounted, reactive, nextTick} from 'vue'
 import {ElMessage, ElMessageBox} from 'element-plus'
 
 const tableData = ref([])
 const {proxy} = getCurrentInstance()
 const getUserData = async () => {
   let data = await proxy.$api.getUserData(config)
-  tableData.value = data.list.map(item => {
-    return {
-      ...item,
-      sexLabel: item.label === 1 ? '男' : '女'
-    }
-  })
+  tableData.value = data.list.map(item => ({
+    ...item,
+    sexLabel: item.label === '1' ? '男' : '女'
+  }))
   config.total = data.count
 }
 const handleChange = (page) => {
@@ -67,7 +65,7 @@ const handleDelete = (val) => {
 }
 // 添加
 const action = ref('add')
-const dialogVisible = ref(true)
+const dialogVisible = ref(false)
 const formUser = reactive({
   sex: '1'
 })
@@ -85,9 +83,11 @@ const rules = reactive({
 const handleClose = () => {
 //   获取表单重置表单
   dialogVisible.value = false
+  proxy.$refs['userForm'].resetFields()
 }
 const handleCancel = () => {
   dialogVisible.value = false
+  proxy.$refs['userForm'].resetFields()
 }
 const handleAdd = () => {
   dialogVisible.value = true
@@ -115,6 +115,8 @@ const onSubmit = () => {
       formUser.birth = /^\d{4}-\d{2}-\d{2}$/.test(formUser.birth) ? formUser.birth : TimeFormat(formUser.birth)
       if (action.value === 'add') {
         res = await proxy.$api.addUser(formUser)
+      } else {
+        res = await proxy.$api.editUser(formUser)
       }
       if (res) {
         dialogVisible.value = false
@@ -130,6 +132,15 @@ const onSubmit = () => {
     }
   })
 }
+// 修改
+const handleEdit = (val) => {
+  action.value = 'edit'
+  dialogVisible.value = true
+  nextTick(() => {
+    Object.assign(formUser, {...val, sex: '' + val.sex})
+  })
+}
+
 onMounted(() => {
   getUserData()
 })
@@ -152,7 +163,7 @@ onMounted(() => {
       <el-table-column v-for="(item,index) in tableLabel" :key="index" :width="item.width?item.width:125" :prop="item.prop" :label="item.label"/>
       <el-table-column fixed="right" label="Operations" min-width="150">
         <template #default="scope">
-          <el-button type="primary" size="small" @click="handleClick">
+          <el-button type="primary" size="small" @click="handleEdit(scope.row)">
             编辑
           </el-button>
           <el-button type="danger" size="small" @click="handleDelete(scope.row)">删除</el-button>
@@ -163,7 +174,7 @@ onMounted(() => {
   </div>
   <el-dialog
       v-model="dialogVisible"
-      :title="action == 'add' ? '新增用户' : '编辑用户'"
+      :title="action === 'add' ? '新增用户' : '编辑用户'"
       width="35%"
       :before-close="handleClose"
   >

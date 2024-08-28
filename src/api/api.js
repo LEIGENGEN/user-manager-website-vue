@@ -36,10 +36,17 @@ export default {
       data
     })
   },
-  addUser(data){
+  addUser(data) {
     return request({
-      url:'/user/addUser',
-      method:'post',
+      url: '/user/addUser',
+      method: 'post',
+      data
+    })
+  },
+  editUser(data) {
+    return request({
+      url: '/user/editUser',
+      method: 'post',
       data
     })
   }
