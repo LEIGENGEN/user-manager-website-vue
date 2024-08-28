@@ -1,5 +1,5 @@
 import {defineStore} from 'pinia'
-import {ref} from 'vue'
+import {ref, watch} from 'vue'
 
 function initState() {
   return {
@@ -22,6 +22,10 @@ export const useAllDataStore = defineStore('allData', () => {
   // compute === getters
   // function === actions
   const state = ref(initState())
+  watch(state, (newObj) => {
+    if (newObj.token) return
+    localStorage.setItem('store', JSON.stringify(newObj))
+  }, {deep: true})
 
   function selectMenu(val) {
     if (val.name === 'home') {
@@ -41,7 +45,16 @@ export const useAllDataStore = defineStore('allData', () => {
     state.value.menuList = val
   }
 
-  function addMenu(router) {
+  function addMenu(router, type) {
+    if (type === 'refresh') {
+      if (JSON.parse(localStorage.getItem('store'))) {
+        state.value = JSON.parse(localStorage.getItem('store'))
+        // 不能解析，设置一个空数组
+        state.value.routerList = []
+      } else {
+        return
+      }
+    }
     const menu = state.value.menuList
     const module = import.meta.glob('../views/**/*.vue')
     const routeArr = []
